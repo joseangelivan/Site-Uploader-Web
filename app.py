@@ -3,12 +3,17 @@ from werkzeug.utils import secure_filename
 import os
 
 app = Flask(__name__)
-app.config.from_object('config.Config')
 
-# Crear carpetas necesarias al iniciar
+STATIC_BASE = os.path.join(os.getcwd(), 'static')
+os.makedirs(STATIC_BASE, exist_ok=True)
+
+# Crea subcarpetas
 for folder in ["videos", "images", "deviation_proof"]:
-    path = os.path.join(app.config['UPLOAD_FOLDER'], folder)
+    path = os.path.join(STATIC_BASE, folder)
     os.makedirs(path, exist_ok=True)
+
+app.config['UPLOAD_FOLDER'] = STATIC_BASE
+app.config['TOKEN'] = "cm6f0vxyt004cpl0175mingss"
 
 @app.route("/")
 def index():
@@ -16,20 +21,17 @@ def index():
 
 @app.route("/videos")
 def videos():
-    folder_path = os.path.join(app.config['UPLOAD_FOLDER'], "videos")
-    files = os.listdir(folder_path)
+    files = os.listdir(os.path.join(app.config['UPLOAD_FOLDER'], "videos"))
     return render_template("videos.html", files=files)
 
 @app.route("/images")
 def images():
-    folder_path = os.path.join(app.config['UPLOAD_FOLDER'], "images")
-    files = os.listdir(folder_path)
+    files = os.listdir(os.path.join(app.config['UPLOAD_FOLDER'], "images"))
     return render_template("images.html", files=files)
 
 @app.route("/deviation_proof")
 def deviation_proof():
-    folder_path = os.path.join(app.config['UPLOAD_FOLDER'], "deviation_proof")
-    files = os.listdir(folder_path)
+    files = os.listdir(os.path.join(app.config['UPLOAD_FOLDER'], "deviation_proof"))
     return render_template("deviation_proof.html", files=files)
 
 @app.route("/api/upload", methods=["POST"])
