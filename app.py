@@ -1,10 +1,14 @@
-from flask import Flask, request, render_template, redirect, url_for, jsonify, send_from_directory, abort
+from flask import Flask, request, render_template, jsonify, send_from_directory
 from werkzeug.utils import secure_filename
 import os
-import json
 
 app = Flask(__name__)
 app.config.from_object('config.Config')
+
+# Crear carpetas necesarias al iniciar
+for folder in ["videos", "images", "deviation_proof"]:
+    path = os.path.join(app.config['UPLOAD_FOLDER'], folder)
+    os.makedirs(path, exist_ok=True)
 
 @app.route("/")
 def index():
@@ -12,17 +16,20 @@ def index():
 
 @app.route("/videos")
 def videos():
-    files = os.listdir(os.path.join(app.config['UPLOAD_FOLDER'], "videos"))
+    folder_path = os.path.join(app.config['UPLOAD_FOLDER'], "videos")
+    files = os.listdir(folder_path)
     return render_template("videos.html", files=files)
 
 @app.route("/images")
 def images():
-    files = os.listdir(os.path.join(app.config['UPLOAD_FOLDER'], "images"))
+    folder_path = os.path.join(app.config['UPLOAD_FOLDER'], "images")
+    files = os.listdir(folder_path)
     return render_template("images.html", files=files)
 
 @app.route("/deviation_proof")
 def deviation_proof():
-    files = os.listdir(os.path.join(app.config['UPLOAD_FOLDER'], "deviation_proof"))
+    folder_path = os.path.join(app.config['UPLOAD_FOLDER'], "deviation_proof")
+    files = os.listdir(folder_path)
     return render_template("deviation_proof.html", files=files)
 
 @app.route("/api/upload", methods=["POST"])
@@ -58,4 +65,3 @@ def uploaded_file(folder, filename):
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
-
