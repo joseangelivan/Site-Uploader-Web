@@ -15,12 +15,14 @@
     </script>
 </head>
 <body>
-    <div class="navbar">
-        <a href="{{ url_for('index') }}">🏠 Inicio</a>
-        <a href="{{ url_for('videos') }}">🎥 Videos</a>
-        <a href="{{ url_for('images') }}">🖼️ Imágenes</a>
-        <a href="{{ url_for('deviation_proofs') }}">🧪 Pruebas de Desvío</a>
-    </div>
+    <nav class="navbar">
+        <div class="navbar-center">
+            <a href="{{ url_for('index') }}">🏠 Inicio</a>
+            <a href="{{ url_for('videos') }}">🎥 Videos</a>
+            <a href="{{ url_for('images') }}">🖼️ Imágenes</a>
+            <a href="{{ url_for('deviation_proofs') }}">🧪 Pruebas de Desvío</a>
+        </div>
+    </nav>
     <div class="container">
         <h1>Pruebas de Desvío</h1>
         <input type="text" id="search" placeholder="Buscar archivo..." onkeyup="filterList()">

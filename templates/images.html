@@ -6,24 +6,34 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <div class="navbar">
-        <a href="{{ url_for('index') }}">🏠 Inicio</a>
-        <a href="{{ url_for('videos') }}">🎥 Videos</a>
-        <a href="{{ url_for('images') }}">🖼️ Imágenes</a>
-        <a href="{{ url_for('deviation_proofs') }}">🧪 Pruebas de Desvío</a>
-    </div>
+    <nav class="navbar">
+        <div class="navbar-center">
+            <a href="{{ url_for('index') }}">🏠 Inicio</a>
+            <a href="{{ url_for('videos') }}">🎥 Videos</a>
+            <a href="{{ url_for('images') }}">🖼️ Imágenes</a>
+            <a href="{{ url_for('deviation_proofs') }}">🧪 Pruebas de Desvío</a>
+        </div>
+    </nav>
     <div class="container">
         <h1>Imágenes</h1>
         <div class="gallery">
             {% for file in files %}
                 <div class="image-item">
-                    <img src="{{ url_for('uploaded_file', folder='images', filename=file) }}" alt="Imagen">
+                    <img src="{{ url_for('uploaded_file', folder='images', filename=file) }}" alt="Imagen" onclick="openPreview(this.src)">
                     <p>{{ file }}</p>
                 </div>
             {% endfor %}
         </div>
+        <div class="image-preview" id="imagePreview" onclick="this.style.display='none'">
+            <img id="previewImage" src="" alt="Vista previa">
+        </div>
     </div>
+    <script>
+        function openPreview(src) {
+            document.getElementById('previewImage').src = src;
+            document.getElementById('imagePreview').style.display = 'flex';
+        }
+    </script>
 </body>
 </html>
-
 
