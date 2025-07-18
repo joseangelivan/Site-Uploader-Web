@@ -1,41 +1,47 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Pruebas de Desvío</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/jsoneditor@9.10.0/dist/jsoneditor.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Pruebas de Desvío</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script>
+        async function showContent(filename) {
+            const ext = filename.split('.').pop().toLowerCase();
+            const response = await fetch(`/static/deviation_proofs/${filename}`);
+            const text = await response.text();
+            const display = document.getElementById('preview');
+            display.innerHTML = (ext === 'json') ? `<pre>${JSON.stringify(JSON.parse(text), null, 2)}</pre>` : `<pre>${text}</pre>`;
+        }
+    </script>
 </head>
 <body>
-  <h1>Pruebas de Desvío</h1>
-  <nav>
-    <a href="{{ url_for('index') }}">Inicio</a>
-    <a href="{{ url_for('videos') }}">Videos</a>
-    <a href="{{ url_for('images') }}">Imágenes</a>
-    <a href="{{ url_for('deviation_proofs') }}">Pruebas de Desvío</a>
-  </nav>
-
-  <div class="container">
-    {% for file in files %}
-      <div class="json-block">
-        <h5>{{ file }}</h5>
-        <div id="jsoneditor-{{ loop.index0 }}" style="height: 400px;"></div>
-      </div>
-    {% endfor %}
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/jsoneditor@9.10.0/dist/jsoneditor.min.js"></script>
-  <script>
-    {% for file in files %}
-      fetch('{{ url_for('uploaded_file', folder='deviation_proofs', filename=file) }}')
-        .then(res => res.json())
-        .then(data => {
-          const container = document.getElementById('jsoneditor-{{ loop.index0 }}');
-          const editor = new JSONEditor(container, { mode: 'view' });
-          editor.set(data);
-        });
-    {% endfor %}
-  </script>
+    <div class="navbar">
+        <a href="{{ url_for('index') }}">🏠 Inicio</a>
+        <a href="{{ url_for('videos') }}">🎥 Videos</a>
+        <a href="{{ url_for('images') }}">🖼️ Imágenes</a>
+        <a href="{{ url_for('deviation_proofs') }}">🧪 Pruebas de Desvío</a>
+    </div>
+    <div class="container">
+        <h1>Pruebas de Desvío</h1>
+        <input type="text" id="search" placeholder="Buscar archivo..." onkeyup="filterList()">
+        <ul class="file-list" id="fileList">
+            {% for file in files %}
+                <li><a href="#" onclick="showContent('{{ file }}')">📄 {{ file }}</a></li>
+            {% endfor %}
+        </ul>
+        <div id="preview" class="preview-box">Selecciona un archivo para ver su contenido...</div>
+    </div>
+    <script>
+        function filterList() {
+            const input = document.getElementById('search');
+            const filter = input.value.toLowerCase();
+            const list = document.getElementById('fileList');
+            const items = list.getElementsByTagName('li');
+            for (let i = 0; i < items.length; i++) {
+                const txt = items[i].textContent || items[i].innerText;
+                items[i].style.display = txt.toLowerCase().includes(filter) ? '' : 'none';
+            }
+        }
+    </script>
 </body>
 </html>

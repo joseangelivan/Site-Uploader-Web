@@ -1,62 +1,95 @@
 body {
-  font-family: 'Segoe UI', Tahoma, sans-serif;
-  background: #f5f7fa;
-  color: #333;
+    font-family: 'Segoe UI', sans-serif;
+    background: #f4f6f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
 }
 
-h1 {
-  text-align: center;
-  margin: 30px 0;
+.navbar {
+    background: #007bff;
+    padding: 0.5rem 1rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
 }
 
-nav {
-  text-align: center;
-  margin-bottom: 40px;
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: background 0.3s;
 }
 
-nav a {
-  margin: 0 20px;
-  text-decoration: none;
-  font-weight: bold;
-  color: #007bff;
+.navbar a:hover {
+    background: #0056b3;
 }
 
-nav a:hover {
-  text-decoration: underline;
+.container {
+    max-width: 960px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
 }
 
 .gallery {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
-.gallery img,
-.gallery video {
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+.image-item img {
+    width: 200px;
+    height: auto;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
 }
 
-.gallery img:hover,
-.gallery video:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+.video-item video {
+    width: 320px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
 }
 
-.json-block {
-  margin: 20px auto;
-  max-width: 800px;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
+.file-list {
+    list-style: none;
+    padding: 0;
 }
 
-footer {
-  text-align: center;
-  padding: 30px;
-  color: #777;
+.file-list li {
+    margin: 0.5rem 0;
 }
 
+.file-list a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.file-list a:hover {
+    text-decoration: underline;
+}
+
+.preview-box {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    white-space: pre-wrap;
+    max-height: 400px;
+    overflow-y: auto;
+    font-family: monospace;
+}
+
+#search {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}

@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Galería Principal</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta charset="UTF-8">
+    <title>Inicio | Uploader Web</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-  <h1>Galería Principal</h1>
-  <nav>
-    <a href="{{ url_for('videos') }}">Videos</a> |
-    <a href="{{ url_for('images') }}">Imágenes</a> |
-    <a href="{{ url_for('deviation_proofs') }}">Pruebas de Desvío</a>
-  </nav>
+    <div class="navbar">
+        <a href="{{ url_for('index') }}">🏠 Inicio</a>
+        <a href="{{ url_for('videos') }}">🎥 Videos</a>
+        <a href="{{ url_for('images') }}">🖼️ Imágenes</a>
+        <a href="{{ url_for('deviation_proofs') }}">🧪 Pruebas de Desvío</a>
+    </div>
+    <div class="container">
+        <h1>Galería de Archivos</h1>
+    </div>
 </body>
 </html>
