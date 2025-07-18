@@ -115,6 +115,7 @@ def upload_file():
     file = request.files.get('file')
     folder = request.form.get('folder')
     hash_algorithm = request.form.get('hash_algorithm', Config.DEFAULT_HASH_ALGORITHM).lower()
+    force_upload = request.form.get('force', 'false').lower() == 'true'
 
     if hash_algorithm not in Config.ALLOWED_HASH_ALGORITHMS:
         hash_algorithm = Config.DEFAULT_HASH_ALGORITHM
@@ -134,7 +135,8 @@ def upload_file():
         os.makedirs(save_path, exist_ok=True)
         file_path = os.path.join(save_path, filename)
         
-        if os.path.exists(file_path):
+        # Verificar si el archivo existe y no es un force upload
+        if os.path.exists(file_path) and not force_upload:
             return jsonify({
                 "error": "File already exists",
                 "file": filename,
@@ -142,20 +144,31 @@ def upload_file():
                 "exists": True
             }), 409
         
+        # Guardar el archivo (sobrescribe si force=True)
         file.save(file_path)
+        
+        # Calcular hash del archivo subido
         file_hash = calculate_file_hash(file_path, hash_algorithm)
         
         return jsonify({
-            "message": f"File saved to {folder}/{filename}",
+            "message": f"File {'overwritten' if force_upload else 'saved'} to {folder}/{filename}",
             "hash": file_hash,
             "hash_algorithm": hash_algorithm,
-            "path": f"/static/{folder_map[folder]}/{filename}"
+            "path": f"/static/{folder_map[folder]}/{filename}",
+            "forced": force_upload
         }), 201
     else:
         return jsonify({"error": "No file provided"}), 400
-
+    
 @app.route('/static/<folder>/<filename>')
 def uploaded_file(folder, filename):
+    if folder not in ['videos', 'images', 'deviation_proofs']:
+        return jsonify({"error": "Invalid folder"}), 400
+        
+    file_path = os.path.join(app.config['UPLOAD_FOLDER'], folder, filename)
+    if not os.path.exists(file_path):
+        return jsonify({"error": "File not found"}), 404
+        
     return send_from_directory(os.path.join(app.config['UPLOAD_FOLDER'], folder), filename)
 
 if __name__ == "__main__":
