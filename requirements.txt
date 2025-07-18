@@ -4,5 +4,5 @@ gunicorn==21.2.0
 PyYAML==6.0.1
 python-dotenv==1.0.0
 requests==2.31.0
-pyjq==2.7.0
+pyjq==2.6.0
 cryptography==42.0.2
