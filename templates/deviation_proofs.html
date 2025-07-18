@@ -13,7 +13,7 @@
     <a href="{{ url_for('index') }}">Inicio</a>
     <a href="{{ url_for('videos') }}">Videos</a>
     <a href="{{ url_for('images') }}">Imágenes</a>
-    <a href="{{ url_for('deviation_proof') }}">Pruebas de Desvío</a>
+    <a href="{{ url_for('deviation_proofs') }}">Pruebas de Desvío</a>
   </nav>
 
   <div class="container">
@@ -28,7 +28,7 @@
   <script src="https://cdn.jsdelivr.net/npm/jsoneditor@9.10.0/dist/jsoneditor.min.js"></script>
   <script>
     {% for file in files %}
-      fetch('{{ url_for('uploaded_file', folder='deviation_proof', filename=file) }}')
+      fetch('{{ url_for('uploaded_file', folder='deviation_proofs', filename=file) }}')
         .then(res => res.json())
         .then(data => {
           const container = document.getElementById('jsoneditor-{{ loop.index0 }}');
